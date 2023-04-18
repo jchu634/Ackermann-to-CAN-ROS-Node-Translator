@@ -15,7 +15,9 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
+from ackermann_can_interfaces.msg import AckermannDrive
+from ackermann_can_interfaces.msg import AckermannDriveStamped
+
 
 
 class MinimalSubscriber(Node):
@@ -23,14 +25,15 @@ class MinimalSubscriber(Node):
     def __init__(self):
         super().__init__('minimal_subscriber')
         self.subscription = self.create_subscription(
-            String,
+            AckermannDriveStamped,
             'topic',
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        self.get_logger().info(f'I heard: {msg.header.stamp} {msg.header.frame_id} {msg.drive.steering_angle} {msg.drive.speed} {msg.drive.acceleration} {msg.drive.jerk}')
+        
 
 
 def main(args=None):

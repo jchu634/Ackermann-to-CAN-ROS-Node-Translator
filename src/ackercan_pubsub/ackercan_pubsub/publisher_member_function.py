@@ -13,25 +13,39 @@
 # limitations under the License.
 
 import rclpy
+from random import random
 from rclpy.node import Node
 
-from std_msgs.msg import String
+from ackermann_can_interfaces.msg import AckermannDrive
+from ackermann_can_interfaces.msg import AckermannDriveStamped
+
 
 
 class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        self.publisher_ = self.create_publisher(AckermannDriveStamped, 'topic', 10)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
+        msg = AckermannDriveStamped()
+        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.header.frame_id = 'base_link'
+        # random.random()
+
+        msg.drive.steering_angle = 0.0
+        msg.drive.speed = 0.0
+        msg.drive.acceleration = 0.0
+        msg.drive.jerk = 0.0
+        
+
+
+        
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info('Publishing: "%s"' % msg.header.frame_id)
         self.i += 1
 
 
