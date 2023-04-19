@@ -14,14 +14,15 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='keshuac',
-    maintainer_email='87676426+jchu634@users.noreply.github.com',
+    maintainer_email='jchu634@aucklanduni.ac.nz',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'talker = ackercan_pubsub.publisher_member_function:main',
-            'listener = ackercan_pubsub.subscriber_member_function:main',
+            'translator = ackercan_pubsub.ackermann_translator:main',
+            'listener= ackercan_pubsub.subscriber_member_function:main',
         ],
     },
 )
