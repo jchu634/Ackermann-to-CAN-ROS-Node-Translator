@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import rclpy
-from random import random
+import random
 from rclpy.node import Node
 
 from ackermann_can_interfaces.msg import AckermannDrive
@@ -25,7 +25,7 @@ class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(AckermannDriveStamped, 'topic', 10)
+        self.publisher_ = self.create_publisher(AckermannDriveStamped, '/cmd_vel', 10)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
@@ -34,12 +34,18 @@ class MinimalPublisher(Node):
         msg = AckermannDriveStamped()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
-        # random.random()
 
-        msg.drive.steering_angle = 0.0
-        msg.drive.speed = 0.0
-        msg.drive.acceleration = 0.0
-        msg.drive.jerk = 0.0
+        msg.drive.steering_angle = random.uniform(-3.14,3.14)
+        msg.drive.steering_angle_velocity = random.uniform(-5,5)
+        msg.drive.speed = random.uniform(0,100)
+        msg.drive.acceleration = random.uniform(0,20)
+        msg.drive.jerk = random.uniform(0,20)
+        
+        # msg.drive.steering_angle = 2.43861236989
+        # msg.drive.steering_angle_velocity = 1.453125000612314
+        # msg.drive.speed = 103.000013131231
+        # msg.drive.acceleration = 14.312543750131231
+        # msg.drive.jerk = 13.40625131231
         
 
 
